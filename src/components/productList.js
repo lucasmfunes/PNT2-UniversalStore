@@ -1,26 +1,56 @@
 import React, {useEffect, useState} from 'react';
-import {Image, FlatList, Text, View, StyleSheet, StatusBar} from 'react-native'
-import { Card, Icon, Button } from 'react-native-elements';
+import {Image, FlatList, Text, View, StyleSheet, StatusBar, SafeAreaView, TextInput} from 'react-native'
+import { Card, Icon, Button, SearchBar } from 'react-native-elements';
 
 import products from '../../services/products'
 
 const ProductList = () => {
 
-    const [data, setData] = useState([]);
-    
+
+    const [search, setSearch] = useState('');
+    const [filteredDataSource, setFilteredDataSource] = useState([]);
+    const [masterDataSource, setMasterDataSource] = useState([]);
+
     useEffect(() => {
         console.log("Cargando productos....")
         products.getProducts()
         .then(res=> {
-           setData(res)
+           setMasterDataSource(res)
+           setFilteredDataSource(res);
            console.log("DONE")
         })
     }, []);
 
+    updateSearch = (search) => {
+        setSearch({ search });
+    };
+
+    const searchFilterFunction = (text) => {
+        if (text) {
+          const newData = masterDataSource.filter(function (item) {
+            const itemData = item.title ? item.title.toUpperCase() : ''.toUpperCase();
+            const textData = text.toUpperCase();
+            return itemData.indexOf(textData) > -1;
+          });
+          setFilteredDataSource(newData);
+          setSearch(text);
+        } else {
+          setFilteredDataSource(masterDataSource);
+          setSearch(text);
+        }
+      };
+
     return (
         <View>
+             <SearchBar
+                platform='ios'
+                placeholder="Search Here"
+                onChangeText={(text) => searchFilterFunction(text)}
+                value={search}
+                cancelButtonTitle='Cancel'
+            />
             <FlatList
-            data={data}
+            data={filteredDataSource}
             keyExtractor={({id}) => id}
             renderItem={({item}) => (
                 <Card style={styles.card} elevation={7}>
@@ -36,10 +66,11 @@ const ProductList = () => {
                                 <Text style={styles.category}>{item.category}</Text>
                                 <Text style={styles.price}>${item.price}</Text>
                                 <Button
-                                icon={<Icon name='' color='#ffffff' />}
-                                type="outline"
-                                buttonStyle={{borderRadius: 5, marginTop: 20, marginRight: 0, marginBottom: 0}}
-                                title='Add to cart' />
+                                    icon={<Icon name='' color='#ffffff' />}
+                                    type="outline"
+                                    buttonStyle={{borderRadius: 5, marginTop: 20, marginRight: 0, marginBottom: 0}}
+                                    title='Add to cart' 
+                                    onPress={() => {console.log(search)}}/>
                             </View>
                     </View>
                 </Card>
@@ -59,6 +90,14 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         overflow: "hidden",
     },
+    textInputStyle: {
+        height: 40,
+        borderWidth: 1,
+        paddingLeft: 20,
+        margin: 5,
+        borderColor: '#009688',
+        backgroundColor: '#FFFFFF',
+      },
     container: {
       paddingTop: 50,
     },
