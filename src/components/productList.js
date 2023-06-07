@@ -1,50 +1,63 @@
 import React, {useEffect, useState} from 'react';
-import {Image, FlatList, Text, View, StyleSheet} from 'react-native'
+import {Image, FlatList, Text, View, StyleSheet, StatusBar} from 'react-native'
+import { Card, Icon, Button } from 'react-native-elements';
+
+import products from '../../services/products'
 
 const ProductList = () => {
+
     const [data, setData] = useState([]);
-    const getProducts = async () => {
-        try {
-            const response = await fetch('https://fakestoreapi.com/products');
-            const json = await response.json();
-            setData(json);
-        } catch (error) {
-            console.error(error);
-        }
-    };
     
     useEffect(() => {
-        getProducts();
+        console.log("hola")
+        products.getProducts()
+        .then(res=> {
+           setData(res)
+        })
     }, []);
 
     return (
+        <View>
             <FlatList
             data={data}
             keyExtractor={({id}) => id}
             renderItem={({item}) => (
-                <View style={styles.product}>
-                    <View>                    
+                <Card style={styles.card} elevation={7}>
+                    <View style={styles.product}>
                         <Image
-                        style={styles.logo}
-                        source={{
-                        uri: item.image,
-                        }}
-                        />
+                                style={styles.logo}
+                                source={{
+                                uri: item.image,
+                                }}
+                                />
+                            <View>                    
+                                <Text style={styles.title}>{item.title.slice(0,20)}</Text>
+                                <Text style={styles.category}>{item.category}</Text>
+                                <Text style={styles.price}>${item.price}</Text>
+                                <Button
+                                icon={<Icon name='' color='#ffffff' />}
+                                type="outline"
+                                buttonStyle={{borderRadius: 5, marginTop: 20, marginRight: 0, marginBottom: 0}}
+                                title='Add to cart' />
+                            </View>
                     </View>
-                    <View>                    
-                        <Text style={styles.title}>{item.title.slice(0,20)}</Text>
-                        <Text style={styles.category}>{item.category}</Text>
-                        <Text style={styles.price}>${item.price}</Text>
-                    </View>
-                </View>   
+                </Card>
             )}
             />
+            <StatusBar style="auto"></StatusBar>
+        </View>
+        
     )
 }
 
 export default ProductList
 
 const styles = StyleSheet.create({
+    card:{
+        backgroundColor: 'grey',
+        borderRadius: 5,
+        overflow: "hidden",
+    },
     container: {
       paddingTop: 50,
     },
@@ -53,18 +66,16 @@ const styles = StyleSheet.create({
       height: 50,
     },
     logo: {
-      width: 80,
-      height: 80,
-      marginRight: 5,
-      borderRadius: 5,
-      overflow: "hidden",
+        flex: 1,
+        width: '90%',
+        height: '90%',
+        marginRight:15,
+        resizeMode: 'contain',
     },
     product:{
-        padding:20,
         paddingBottom: 5,
         paddingTop: 5,
-        marginLeft: 5,
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
     title:{
         fontWeight: 'bold',

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Alert, Button, TextInput, View, StyleSheet, Image } from 'react-native';
 import logo from '../../assets/universal-logo.jpg';
-
 export default class App extends Component {
   constructor(props) {
     super(props);
