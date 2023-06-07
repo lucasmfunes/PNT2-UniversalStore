@@ -1,23 +1,8 @@
 import React, { Component } from 'react';
 import { Alert, Button, TextInput, View, StyleSheet, Image } from 'react-native';
 import logo from '../../assets/universal-logo.jpg';
-export default class App extends Component {
-  constructor(props) {
-    super(props);
-    
-    this.state = {
-      username: '',
-      password: '',
-    };
-  }
-  
-  onLogin() {
-    const { username, password } = this.state;
 
-    Alert.alert('Credentials', `${username} + ${password}`);
-  }
-
-  render() {
+const Login = ({navigation}) => {
     return (
       <View style={styles.container}>
          <Image
@@ -25,14 +10,14 @@ export default class App extends Component {
             source= {logo}
         />
         <TextInput
-          value={this.state.username}
-          onChangeText={(username) => this.setState({ username })}
+         // value={this.state.username}
+        //  onChangeText={(username) => this.setState({ username })}
           placeholder={'Username'}
           style={styles.input}
         />
         <TextInput
-          value={this.state.password}
-          onChangeText={(password) => this.setState({ password })}
+        //  value={this.state.password}
+        //  onChangeText={(password) => this.setState({ password })}
           placeholder={'Password'}
           secureTextEntry={true}
           style={styles.input}
@@ -41,11 +26,11 @@ export default class App extends Component {
         <Button
           title={'Login'}
           style={styles.input}
-          onPress={this.onLogin.bind(this)}
+          onPress={() => {navigation.navigate('Main')}}
         />
       </View>
     );
-  }
+  
 }
 
 const styles = StyleSheet.create({
@@ -69,3 +54,5 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 });
+
+export default Login

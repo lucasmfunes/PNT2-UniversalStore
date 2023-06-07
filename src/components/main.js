@@ -11,14 +11,12 @@ const Main = () => {
             
     )
 }
-
 export default Main
 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#FFFF',
-      marginTop: Constants.statusBarHeight,
       flexGrow: 1
     },
   });

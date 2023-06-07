@@ -9,10 +9,11 @@ const ProductList = () => {
     const [data, setData] = useState([]);
     
     useEffect(() => {
-        console.log("hola")
+        console.log("Cargando productos....")
         products.getProducts()
         .then(res=> {
            setData(res)
+           console.log("DONE")
         })
     }, []);
 

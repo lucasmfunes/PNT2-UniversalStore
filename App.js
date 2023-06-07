@@ -1,12 +1,17 @@
-import {StyleSheet, View } from 'react-native';
 import Main from './src/components/main';
 import Login from './src/components/login'
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+const Stack = createNativeStackNavigator();
 export default function App() {
   return (
-      <Main ></Main>
-      // //<Login></Login>
-
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Main" component={Main} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
