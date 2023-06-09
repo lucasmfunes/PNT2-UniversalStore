@@ -1,4 +1,3 @@
-import Main from './src/components/main';
 import Login from './src/components/login'
 import Detail from './src/components/productDetails'
 import ProductList from './src/components/productList';
@@ -22,7 +21,7 @@ export default function App() {
         <Stack.Screen name="Main" component={ProductList} options={{headerMode: 'none'}}/>
         <Stack.Screen name="Detail" component={Detail} />
         <Stack.Screen name="Cart" component={Cart} />
-        <Stack.Screen name="Payment" component={OrderPayed} />
+        <Stack.Screen name="Payment" component={OrderPayed}  options={{headerLeft: null}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

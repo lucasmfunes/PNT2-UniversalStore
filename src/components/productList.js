@@ -9,7 +9,6 @@ import {StatusBar} from 'react-native';
 
 
 const ProductList = ({route, navigation}) => {
-    const { username } = route.params;
     const [search, setSearch] = useState('');
 
     const [cartProductList, setCartProductList] = useState([]);
@@ -24,12 +23,12 @@ const ProductList = ({route, navigation}) => {
     useEffect(() => {
         console.log("Cargando productos....")
         products.getProducts()
-        .then(res=> {
+        .then(res => {
            setMasterDataSource(res)
            setFilteredDataSource(res);
            console.log("DONE")
         })
-    }, []);
+    }, [cartProductList]);
 
     const searchFilterFunction = (text) => {
         if (text) {
@@ -47,8 +46,7 @@ const ProductList = ({route, navigation}) => {
       };
 
       const addToCart = (item) => {
-        let productList = cartProductList
-        productList.push(item)
+        let productList = [...cartProductList, item]
         setCartProductList(productList)
         console.log(cartProductList)
       }
@@ -66,7 +64,7 @@ const ProductList = ({route, navigation}) => {
                     color: '#fff',
                 }}
                 rightComponent={
-                    <View style={styles.headerRight}>
+                    <View style={styles.headerRight} key={cartProductList.length}>
                     <TouchableOpacity
                         style={{ marginLeft: 10 }}
                         onPress={() => {navigation.navigate('Cart', {list: cartProductList})}}
