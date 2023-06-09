@@ -3,7 +3,7 @@ import {StyleSheet, View} from 'react-native'
 import ProductList from './productList'
 import Constants from 'expo-constants'
 
-const Main = () => {
+const Main = ({navigation}) => {
     return(
         <View style={styles.container}>
             <ProductList ></ProductList>

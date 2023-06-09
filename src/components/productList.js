@@ -1,15 +1,25 @@
 import React, {useEffect, useState} from 'react';
-import {Image, FlatList, Text, View, StyleSheet, StatusBar, SafeAreaView, TextInput} from 'react-native'
+import {Image, FlatList, Text, View, StyleSheet, SafeAreaView } from 'react-native'
 import { Card, Icon, Button, SearchBar } from 'react-native-elements';
-
 import products from '../../services/products'
+import { Header as HeaderRNE, HeaderProps } from '@rneui/themed';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Badge } from '@rneui/themed';
+import {StatusBar} from 'react-native';
 
-const ProductList = () => {
 
-
+const ProductList = ({route, navigation}) => {
+    const { username } = route.params;
     const [search, setSearch] = useState('');
+
+    const [cartProductList, setCartProductList] = useState([]);
+
     const [filteredDataSource, setFilteredDataSource] = useState([]);
     const [masterDataSource, setMasterDataSource] = useState([]);
+    StatusBar.setHidden(false)
+
+    StatusBar.currentHeight = -20
+    SafeAreaView.length = -20
 
     useEffect(() => {
         console.log("Cargando productos....")
@@ -20,10 +30,6 @@ const ProductList = () => {
            console.log("DONE")
         })
     }, []);
-
-    updateSearch = (search) => {
-        setSearch({ search });
-    };
 
     const searchFilterFunction = (text) => {
         if (text) {
@@ -40,8 +46,43 @@ const ProductList = () => {
         }
       };
 
+      const addToCart = (item) => {
+        let productList = cartProductList
+        productList.push(item)
+        setCartProductList(productList)
+        console.log(cartProductList)
+      }
+
+      const getLength = () => {
+        return cartProductList.length.toString()
+      }
+
     return (
         <View>
+            <SafeAreaView >
+                <HeaderRNE style={styles.headerContainer}
+                    leftComponent={{
+                    icon: 'menu',
+                    color: '#fff',
+                }}
+                rightComponent={
+                    <View style={styles.headerRight}>
+                    <TouchableOpacity
+                        style={{ marginLeft: 10 }}
+                        onPress={() => {navigation.navigate('Cart', {list: cartProductList})}}
+                    >
+                        <Icon type="antdesign" name="shoppingcart" color="white" />
+                        </TouchableOpacity>
+                        <Badge
+                            status="error"
+                            value={getLength()}
+                            containerStyle={{ position: 'absolute', bottom: 15, left: 20}}
+                        />
+                    </View>
+                }
+                centerComponent={{ text: 'Universal Store', style: styles.heading }}
+                />
+            </SafeAreaView>
              <SearchBar
                 platform='ios'
                 placeholder="Search Here"
@@ -49,6 +90,7 @@ const ProductList = () => {
                 value={search}
                 cancelButtonTitle='Cancel'
             />
+            
             <FlatList
             data={filteredDataSource}
             keyExtractor={({id}) => id}
@@ -62,21 +104,22 @@ const ProductList = () => {
                                 }}
                                 />
                             <View>                    
-                                <Text style={styles.title}>{item.title.slice(0,20)}</Text>
+                                <Text onPress={() => {navigation.navigate('Detail')}}
+                                style={styles.title}>{item.title.slice(0,20)}</Text>
                                 <Text style={styles.category}>{item.category}</Text>
                                 <Text style={styles.price}>${item.price}</Text>
                                 <Button
                                     icon={<Icon name='' color='#ffffff' />}
                                     type="outline"
                                     buttonStyle={{borderRadius: 5, marginTop: 20, marginRight: 0, marginBottom: 0}}
-                                    title='Add to cart' 
-                                    onPress={() => {console.log(search)}}/>
+                                    title='Add to cart'
+                                    onPress={()=> { addToCart(item)}}
+                                    />
                             </View>
                     </View>
                 </Card>
             )}
             />
-            <StatusBar style="auto"></StatusBar>
         </View>
         
     )
@@ -85,6 +128,13 @@ const ProductList = () => {
 export default ProductList
 
 const styles = StyleSheet.create({
+    headerContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#397af8',
+        marginBottom: 20,
+        width: '100%',
+      },
     card:{
         backgroundColor: 'grey',
         borderRadius: 5,
@@ -98,13 +148,6 @@ const styles = StyleSheet.create({
         borderColor: '#009688',
         backgroundColor: '#FFFFFF',
       },
-    container: {
-      paddingTop: 50,
-    },
-    tinyLogo: {
-      width: 50,
-      height: 50,
-    },
     logo: {
         flex: 1,
         width: '90%',
@@ -130,6 +173,29 @@ const styles = StyleSheet.create({
         color: 'grey',
         fontStyle: 'italic',
         textTransform: 'capitalize'
-    }
+    },
+    headerContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#397af8',
+        marginBottom: 20,
+        width: '100%',
+        paddingVertical: 15,
+      },
+      heading: {
+        color: 'white',
+        fontSize: 22,
+        fontWeight: 'bold',
+      },
+      headerRight: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginTop: 5,
+      },
+      subheaderText: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
+      },
   });
   

@@ -1,8 +1,11 @@
-import React, { Component } from 'react';
+import React, {useState} from 'react';
 import { Alert, Button, TextInput, View, StyleSheet, Image } from 'react-native';
 import logo from '../../assets/universal-logo.jpg';
 
 const Login = ({navigation}) => {
+
+  const [username, setUsername] = useState('');
+
     return (
       <View style={styles.container}>
          <Image
@@ -10,8 +13,8 @@ const Login = ({navigation}) => {
             source= {logo}
         />
         <TextInput
-         // value={this.state.username}
-        //  onChangeText={(username) => this.setState({ username })}
+          value={this.username}
+          onChangeText={(text) => setUsername(text )}
           placeholder={'Username'}
           style={styles.input}
         />
@@ -26,11 +29,11 @@ const Login = ({navigation}) => {
         <Button
           title={'Login'}
           style={styles.input}
-          onPress={() => {navigation.navigate('Main')}}
+          onPress={() => {navigation.navigate('Main', {username: username})}}
         />
       </View>
     );
-  
+
 }
 
 const styles = StyleSheet.create({
