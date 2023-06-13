@@ -1,22 +1,27 @@
 export default [
     {
-        nombre: 'jose',
-        apellido: 'funes'
+        title: 'Remera roja',
+        category: 'Ropa hombre',
+        price: '1500'
     },
     {
-        nombre: 'marcos',
-        apellido: 'lopez'
+        title: 'Pantalon azul',
+        category: 'Ropa mujer',
+        price: '3450'
     },
     {
-        nombre: 'alb',
-        apellido: '333'
+        title: 'Camisa',
+        category: 'Ropa hombre',
+        price: '10000'
     },
     {
-        nombre: 'Martin',
-        apellido: 'Gomez'
+        title: 'Zapatillas nike',
+        category: 'Ropa mujer',
+        price: '75000'
     },
     {
-        nombre: 'Alva',
-        apellido: 'Tench'
+        title: 'Remera verde',
+        category: 'Ropa hombre',
+        price: '1500'
     },
 ]

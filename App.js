@@ -6,11 +6,7 @@ import OrderPayed from './src/components/orderSuccesful';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-
-
 const Stack = createNativeStackNavigator();
-
-
 
 export default function App() {
   
@@ -18,10 +14,10 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Main" component={ProductList} options={{headerMode: 'none'}}/>
+        <Stack.Screen name="Main" component={ProductList} options={{headerShown: false}}/>
         <Stack.Screen name="Detail" component={Detail} />
         <Stack.Screen name="Cart" component={Cart} />
-        <Stack.Screen name="Payment" component={OrderPayed}  options={{headerLeft: null}}/>
+        <Stack.Screen name="Payment" component={OrderPayed}  options={{headerBackVisible: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

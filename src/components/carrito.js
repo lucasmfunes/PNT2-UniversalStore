@@ -39,9 +39,6 @@ const Cart = ({route, navigation}) => {
                 </View>
         </Card>
             <Button
-                icon={<Icon name='' color='#ffffff' />}
-                type="outline"
-                buttonStyle={{borderRadius: 5, marginTop: 20, marginRight: 0, marginBottom: 0}}
                 title='Pay order'
                 onPress={() => {navigation.navigate('Payment')} }
                 />

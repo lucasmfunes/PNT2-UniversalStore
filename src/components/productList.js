@@ -6,17 +6,18 @@ import { Header as HeaderRNE, HeaderProps } from '@rneui/themed';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Badge } from '@rneui/themed';
 import {StatusBar} from 'react-native';
-
+import fakeData from '../data/fakeData';
 
 const ProductList = ({route, navigation}) => {
     const [search, setSearch] = useState('');
-
+    // const [selectedLanguage, setSelectedLanguage] = useState();
     const [cartProductList, setCartProductList] = useState([]);
 
     const [filteredDataSource, setFilteredDataSource] = useState([]);
     const [masterDataSource, setMasterDataSource] = useState([]);
-    StatusBar.setHidden(false)
 
+    // Quitar padding header
+    StatusBar.setHidden(false)
     StatusBar.currentHeight = -20
     SafeAreaView.length = -20
 
@@ -88,9 +89,19 @@ const ProductList = ({route, navigation}) => {
                 value={search}
                 cancelButtonTitle='Cancel'
             />
+{/* 
+                <Picker
+                selectedValue={selectedLanguage}
+                onValueChange={(itemValue, itemIndex) =>
+                    setSelectedLanguage(itemValue)
+                }>
+                <Picker.Item label="Java" value="java" />
+                <Picker.Item label="JavaScript" value="js" />
+                </Picker> */}
             
             <FlatList
             data={filteredDataSource}
+           // data={fakeData}
             keyExtractor={({id}) => id}
             renderItem={({item}) => (
                 <Card style={styles.card} elevation={7}>

@@ -1,10 +1,50 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Alert, Button, TextInput, View, StyleSheet, Image } from 'react-native';
 import logo from '../../assets/universal-logo.jpg';
+import * as Google from 'expo-auth-session/providers/google';
+import {ANDROID_CLIENT_ID, IOS_CLIENT_ID, EXPO_CLIENT_ID} from "@env"
+
 
 const Login = ({navigation}) => {
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    androidClientId: ANDROID_CLIENT_ID,
+    iosClientId: IOS_CLIENT_ID,
+    expoClientId: EXPO_CLIENT_ID
+  });
 
+  // console.log(ANDROID_CLIENT_ID)
+
+  const [userInforResponse, setUserInforResponse ] = useState();
+  const [accessToken, setAccessToken ] = useState();
   const [username, setUsername] = useState('');
+
+  const mostrarToken = ()=> {
+    console.log(accessToken)
+  }
+
+  const mostrarUserInfo = async () => {
+    if(userInforResponse == null || userInforResponse == undefined){
+      await getUserData();
+    }
+    console.log(userInforResponse)
+  } 
+
+  const getUserData = async () => {
+    let userInforResponse = await fetch("https://www.googleapis.com/userinfo/v2/me" ,{
+      headers: {Authorization: `Bearer ${accessToken}` }}
+    )
+
+    userInforResponse.json().then(data => {
+      setUserInforResponse(data);
+    })
+
+  };
+
+  useEffect(() => {
+    if(response?.type === "success"){
+      setAccessToken(response.authentication.accessToken)
+    }
+  }, [response])
 
     return (
       <View style={styles.container}>
@@ -30,6 +70,29 @@ const Login = ({navigation}) => {
           title={'Login'}
           style={styles.input}
           onPress={() => {navigation.navigate('Main', {username: username})}}
+        />
+        <Button
+          title="Sign in with Google"
+          disabled={!request}
+          onPress={() => {
+            promptAsync({showInRecents: true});
+          }}
+        />
+
+      <Button
+          title="Mostrar"
+          disabled={!request}
+          onPress={() => {
+            mostrarToken()
+          }}
+        />
+
+      <Button
+          title="User data"
+          disabled={!request}
+          onPress={() => {
+            mostrarUserInfo()
+          }}
         />
       </View>
     );

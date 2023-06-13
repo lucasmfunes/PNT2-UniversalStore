@@ -1,6 +1,6 @@
 import React, { Component, useEffect } from 'react';
-import {Button,Icon, Image, Text, View, StyleSheet, BackHandler } from 'react-native'
-import { Card} from 'react-native-elements';
+import {Icon, Text, StyleSheet, Button } from 'react-native'
+import {Card} from 'react-native-elements';
 import check from '../../assets/greencheck.png';
 
 const OrderPayed = ({route, navigation}) => {
@@ -9,20 +9,19 @@ const OrderPayed = ({route, navigation}) => {
             <Card.Title>Order completed!</Card.Title>
             <Card.Image style={styles.logo} source= {check}></Card.Image>
 
-            <View>
+
                 <Text>Su numero de orden: #{Math.floor(Math.random() * 100000000000000)} fue abonado correctamente</Text>
-                {/* <Button
-                icon={<Icon name='' color='#ffffff' />}
-                buttonStyle={{borderRadius: 5, marginTop: 20, marginRight: 0, marginBottom: 0}}
-                title='Come back'
+                <Button
+                title= "hola"
                 onPress={() => {navigation.navigate('Main')} }
-                /> */}
-            </View>
+                />
 
         </Card>
 
     );
 }
+
+export default OrderPayed;
 
 const styles = StyleSheet.create({
     logo: {
@@ -35,10 +34,10 @@ const styles = StyleSheet.create({
       },
       container: {
         flex: 1,
+        paddingTop: 400,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#fff',
       },
   });
 
-export default OrderPayed;
