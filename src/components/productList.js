@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Image, FlatList, Text, View, StyleSheet, SafeAreaView } from 'react-native'
 import { Card, Icon, Button, SearchBar } from 'react-native-elements';
 import products from '../../services/products'
@@ -7,12 +7,15 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Badge } from '@rneui/themed';
 import {StatusBar} from 'react-native';
 import fakeData from '../data/fakeData';
+import GlobalContext from './globalContext'; 
 
 const ProductList = ({route, navigation}) => {
     const [search, setSearch] = useState('');
     // const [selectedLanguage, setSelectedLanguage] = useState();
-    const [cartProductList, setCartProductList] = useState([]);
+    //const [cartProductList, setCartProductList] = useState([]);
 
+    const{cartProductList, setCartProductList} = useContext(GlobalContext)
+    const{userAuth, setuserAuth} = useContext(GlobalContext)
     const [filteredDataSource, setFilteredDataSource] = useState([]);
     const [masterDataSource, setMasterDataSource] = useState([]);
 
@@ -22,15 +25,20 @@ const ProductList = ({route, navigation}) => {
     SafeAreaView.length = -20
 
     useEffect(() => {
-        console.log("Cargando productos....")
-        products.getProducts()
-        .then(res => {
-           setMasterDataSource(res)
-           setFilteredDataSource(res);
-           console.log("DONE")
-        })
+        if(masterDataSource.length < 1){
+            console.log("Cargando productos....")
+            products.getProducts()
+            .then(res => {
+               setMasterDataSource(res)
+               setFilteredDataSource(res)
+               console.log("DONE")
+            })
+            .catch((e) =>{
+                console.log(e)
+            })
+        }
     }, [cartProductList]);
-
+    
     const searchFilterFunction = (text) => {
         if (text) {
           const newData = masterDataSource.filter(function (item) {
@@ -49,23 +57,22 @@ const ProductList = ({route, navigation}) => {
       const addToCart = (item) => {
         let productList = [...cartProductList, item]
         setCartProductList(productList)
-        console.log(cartProductList)
       }
 
       const getLength = () => {
+        if(cartProductList == undefined || cartProductList == null){
+            return 0
+        }
         return cartProductList.length.toString()
       }
+
 
     return (
         <View>
             <SafeAreaView >
                 <HeaderRNE style={styles.headerContainer}
-                    leftComponent={{
-                    icon: 'menu',
-                    color: '#fff',
-                }}
                 rightComponent={
-                    <View style={styles.headerRight} key={cartProductList.length}>
+                    <View style={styles.headerRight}>
                     <TouchableOpacity
                         style={{ marginLeft: 10 }}
                         onPress={() => {navigation.navigate('Cart', {list: cartProductList})}}
@@ -89,46 +96,41 @@ const ProductList = ({route, navigation}) => {
                 value={search}
                 cancelButtonTitle='Cancel'
             />
-{/* 
-                <Picker
-                selectedValue={selectedLanguage}
-                onValueChange={(itemValue, itemIndex) =>
-                    setSelectedLanguage(itemValue)
-                }>
-                <Picker.Item label="Java" value="java" />
-                <Picker.Item label="JavaScript" value="js" />
-                </Picker> */}
-            
-            <FlatList
-            data={filteredDataSource}
-           // data={fakeData}
-            keyExtractor={({id}) => id}
-            renderItem={({item}) => (
-                <Card style={styles.card} elevation={7}>
-                    <View style={styles.product}>
-                        <Image
-                                style={styles.logo}
-                                source={{
-                                uri: item.image,
-                                }}
-                                />
-                            <View>                    
-                                <Text onPress={() => {navigation.navigate('Detail')}}
-                                style={styles.title}>{item.title.slice(0,20)}</Text>
-                                <Text style={styles.category}>{item.category}</Text>
-                                <Text style={styles.price}>${item.price}</Text>
-                                <Button
-                                    icon={<Icon name='' color='#ffffff' />}
-                                    type="outline"
-                                    buttonStyle={{borderRadius: 5, marginTop: 20, marginRight: 0, marginBottom: 0}}
-                                    title='Add to cart'
-                                    onPress={()=> { addToCart(item)}}
-                                    />
+            <View>
+                <TouchableOpacity style={styles.cerrarSesion} onPress={()=> {setuserAuth(null)}}><Text>Hola, {userAuth.name} ! (Cerrar Sesion)</Text></TouchableOpacity>
+                    <FlatList
+                   // data={filteredDataSource}
+                     data={fakeData}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({item}) => (
+                        <Card style={styles.card} elevation={7}>
+                            <View style={styles.product}>
+                                <Image
+                                        style={styles.logo}
+                                        source={{
+                                        uri: item.image,
+                                        }}
+                                        />
+                                    <View>                    
+                                        <Text onPress={() => {navigation.navigate('Detail')}}
+                                        style={styles.title}>{item.title.slice(0,20)}</Text>
+                                        <Text style={styles.category}>{item.category}</Text>
+                                        <Text style={styles.price}>${item.price}</Text>
+                                        <Button
+                                            icon={<Icon name='' color='#ffffff' />}
+                                            type="outline"
+                                            buttonStyle={{borderRadius: 5, marginTop: 20, marginRight: 0, marginBottom: 0}}
+                                            title='Add to cart'
+                                            onPress={()=> { 
+                                                    addToCart(item)
+                                            }}
+                                            />
+                                    </View>
                             </View>
-                    </View>
-                </Card>
-            )}
-            />
+                        </Card>
+                    )}
+                    />
+            </View>
         </View>
         
     )
@@ -206,5 +208,9 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
       },
+
+      cerrarSesion:{
+        paddingTop: 5
+      }
   });
   

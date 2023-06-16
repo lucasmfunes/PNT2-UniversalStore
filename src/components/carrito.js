@@ -3,10 +3,7 @@ import {Button,Icon, FlatList, Text, View, StyleSheet } from 'react-native'
 import { Card} from 'react-native-elements';
 const Cart = ({route, navigation}) => {
 
-
     const { list } = route.params;
-    console.log(list)
-
 
     const getTotal = () => {
         let sum = 0;
@@ -22,7 +19,7 @@ const Cart = ({route, navigation}) => {
             <Card elevation={7}>
                 <FlatList
                 data={list}
-                keyExtractor={({id}) => id}
+                keyExtractor={(item) => item.id + Math.random() * 1000}
                 renderItem={({item}) => (
                         <View>
                                 <View style={styles.productList}>                    
@@ -31,7 +28,6 @@ const Cart = ({route, navigation}) => {
                                 </View>
 
                         </View>
-
                 )}
                 />
                 <View>                    
