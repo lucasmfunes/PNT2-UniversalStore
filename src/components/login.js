@@ -7,9 +7,9 @@ import {ANDROID_CLIENT_ID, IOS_CLIENT_ID, EXPO_CLIENT_ID} from "@env"
 
 const Login = ({navigation}) => {
   const [request, response, promptAsync] = Google.useAuthRequest({
-    androidClientId: ANDROID_CLIENT_ID,
-    iosClientId: IOS_CLIENT_ID,
-    expoClientId: EXPO_CLIENT_ID
+    androidClientId: '733272611796-b9l767bn0rd3gd0gq1l5kav0kt8a637j.apps.googleusercontent.com',
+    iosClientId: '733272611796-1lnaoe7cskm42ihrjl9q2vqfma9gme20.apps.googleusercontent.com',
+    expoClientId: '733272611796-sqgchop4lgq9dnk89ogcplk1qfr2rkkr.apps.googleusercontent.com'
   });
 
   // console.log(ANDROID_CLIENT_ID)

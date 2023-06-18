@@ -65,19 +65,21 @@ const ProductList = ({route, navigation}) => {
                     color: '#fff',
                 }}
                 rightComponent={
-                    <View style={styles.headerRight} key={cartProductList.length}>
+                    
                     <TouchableOpacity
                         style={{ marginLeft: 10 }}
                         onPress={() => {navigation.navigate('Cart', {list: cartProductList})}}
                     >
-                        <Icon type="antdesign" name="shoppingcart" color="white" />
-                        </TouchableOpacity>
-                        <Badge
-                            status="error"
-                            value={getLength()}
-                            containerStyle={{ position: 'absolute', bottom: 15, left: 20}}
-                        />
-                    </View>
+                        <View style={styles.headerRight} key={cartProductList.length} >
+                            <Icon type="antdesign" name="shoppingcart" color="white" />
+                            <Badge
+                                status="error"
+                                value={getLength()}
+                                containerStyle={{ position: 'absolute', bottom: 15, left: 15}}
+                                //onPress={() => {navigation.navigate('Cart', {list: cartProductList})}}
+                            />
+                        </View>
+                    </TouchableOpacity>
                 }
                 centerComponent={{ text: 'Universal Store', style: styles.heading }}
                 />
