@@ -70,28 +70,30 @@ const ProductList = ({route, navigation}) => {
     return (
         <View>
             <SafeAreaView >
-                <HeaderRNE style={styles.headerContainer}
-                rightComponent={
-                    <View style={styles.headerRight}>
-                    <TouchableOpacity
-                        style={{ marginLeft: 10 }}
-                        onPress={() => {navigation.navigate('Cart', {list: cartProductList})}}
-                    >
-                        <View style={styles.headerRight} key={cartProductList.length} >
-                            <Icon type="antdesign" name="shoppingcart" color="white" />
-                            <Badge
-                                status="error"
-                                value={getLength()}
-                                containerStyle={{ position: 'absolute', bottom: 15, left: 15}}
-                                //onPress={() => {navigation.navigate('Cart', {list: cartProductList})}}
-                            />
+                <HeaderRNE 
+                    style={styles.headerContainer}
+                    rightComponent={
+                        <View style={styles.headerRight}>
+                            <TouchableOpacity
+                                style={{ marginLeft: 10 }}
+                                onPress={() => {navigation.navigate('Cart', {list: cartProductList})}}
+                            >
+                                <View style={styles.headerRight} key={cartProductList.length} >
+                                    <Icon type="antdesign" name="shoppingcart" color="white" />
+                                    <Badge
+                                        status="error"
+                                        value={getLength()}
+                                        containerStyle={{ position: 'absolute', bottom: 15, left: 15}}
+                                        //onPress={() => {navigation.navigate('Cart', {list: cartProductList})}}
+                                    />
+                                </View>
+                            </TouchableOpacity>
                         </View>
-                    </TouchableOpacity>
-                }
-                centerComponent={{ text: 'Universal Store', style: styles.heading }}
+                    }
+                    centerComponent={{ text: 'Universal Store', style: styles.heading }}
                 />
             </SafeAreaView>
-             <SearchBar
+            <SearchBar
                 platform='ios'
                 placeholder="Search Here"
                 onChangeText={(text) => searchFilterFunction(text)}
@@ -102,7 +104,7 @@ const ProductList = ({route, navigation}) => {
                 <TouchableOpacity style={styles.cerrarSesion} onPress={()=> {setuserAuth(null)}}><Text>Hola, {userAuth.name} ! (Cerrar Sesion)</Text></TouchableOpacity>
                     <FlatList
                    // data={filteredDataSource}
-                     data={fakeData}
+                    data={fakeData}
                     keyExtractor={(item) => item.id}
                     renderItem={({item}) => (
                         <Card style={styles.card} elevation={7}>
