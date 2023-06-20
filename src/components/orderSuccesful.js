@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import {Icon, Text, StyleSheet, Button } from 'react-native'
+import {Text, StyleSheet, Button } from 'react-native'
 import {Card} from 'react-native-elements';
 import check from '../../assets/greencheck.png';
 import GlobalContext from './globalContext'; 
-
+import Storage from '../../services/asyncStorage'
 
 
 const OrderPayed = ({route, navigation}) => {
@@ -17,6 +17,7 @@ const OrderPayed = ({route, navigation}) => {
                 title= "Pagar"
                 onPress={() => {
                     setCartProductList([])
+                    Storage.storeData('Cart', JSON.stringify([]))
                     navigation.navigate('Main')
                 } }
                 />

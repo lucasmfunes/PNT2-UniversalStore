@@ -7,11 +7,28 @@ import React, {useContext, useEffect, useState} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import GlobalContext,{defaultAuth, cartList}  from './src/components/globalContext'; 
+import Storage from './services/asyncStorage'
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [userAuth, setuserAuth] = useState(defaultAuth)
   const [cartProductList, setCartProductList] = useState(cartList)
+
+  useEffect(() => {
+    Storage.getData('Auth')
+    .then(res => setuserAuth(JSON.parse(res)))
+    .catch(error => console.log(error))
+
+    Storage.getData('Cart')
+    .then((res) => {
+      if(res != null && res != undefined){
+        setCartProductList(JSON.parse(res))
+      } else{
+        setCartProductList([])
+      }
+    })
+    .catch(error => console.log(error))
+  }, []);
 
   return (
     <GlobalContext.Provider value={

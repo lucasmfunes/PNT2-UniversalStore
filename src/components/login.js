@@ -4,8 +4,9 @@ import logo from '../../assets/universal-logo.jpg';
 import * as Google from 'expo-auth-session/providers/google';
 import {ANDROID_CLIENT_ID, IOS_CLIENT_ID, EXPO_CLIENT_ID} from "@env"
 import GlobalContext from './globalContext'; 
+import Storage from '../../services/asyncStorage'
 
-const Login = ({navigation}) => {
+const Login = () => {
   const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId: '733272611796-b9l767bn0rd3gd0gq1l5kav0kt8a637j.apps.googleusercontent.com',
     iosClientId: '733272611796-1lnaoe7cskm42ihrjl9q2vqfma9gme20.apps.googleusercontent.com',
@@ -31,6 +32,7 @@ const Login = ({navigation}) => {
     }
     ).then( (data) => { 
       data.json().then(data => {
+        Storage.storeData("Auth", JSON.stringify(data))
         setuserAuth(data)
       })
     })
@@ -49,11 +51,13 @@ const Login = ({navigation}) => {
       }
   }
 
+
   useEffect(() => {
     if(response?.type === "success"){
       setAccessToken(response.authentication.accessToken)
     }
   }, [response])
+
     return (
       <View style={styles.container}>
          <Image
@@ -83,22 +87,6 @@ const Login = ({navigation}) => {
           disabled={!request}
           onPress={() => {
            logWithGoogle()
-          }}
-        />
-
-        <Button
-          title="Mostrar"
-          disabled={!request}
-          onPress={() => {
-            console.log(userAuth)
-          }}
-        />
-
-      <Button
-          title="Mostrar"
-          disabled={!request}
-          onPress={() => {
-            console.log(accessToken)
           }}
         />
       </View>

@@ -2,17 +2,16 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Image, FlatList, Text, View, StyleSheet, SafeAreaView } from 'react-native'
 import { Card, Icon, Button, SearchBar } from 'react-native-elements';
 import products from '../../services/products'
-import { Header as HeaderRNE, HeaderProps } from '@rneui/themed';
+import { Header as HeaderRNE } from '@rneui/themed';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Badge } from '@rneui/themed';
 import {StatusBar} from 'react-native';
 import fakeData from '../data/fakeData';
 import GlobalContext from './globalContext'; 
+import Storage from '../../services/asyncStorage'
 
-const ProductList = ({route, navigation}) => {
+const ProductList = ({navigation}) => {
     const [search, setSearch] = useState('');
-    // const [selectedLanguage, setSelectedLanguage] = useState();
-    //const [cartProductList, setCartProductList] = useState([]);
 
     const{cartProductList, setCartProductList} = useContext(GlobalContext)
     const{userAuth, setuserAuth} = useContext(GlobalContext)
@@ -56,6 +55,7 @@ const ProductList = ({route, navigation}) => {
 
       const addToCart = (item) => {
         let productList = [...cartProductList, item]
+        Storage.storeData('Cart', JSON.stringify(productList))
         setCartProductList(productList)
       }
 
@@ -64,6 +64,12 @@ const ProductList = ({route, navigation}) => {
             return 0
         }
         return cartProductList.length.toString()
+      }
+
+      const logout = () => {
+        setCartProductList([])
+        setuserAuth(null)
+        Storage.clearAll()
       }
 
 
@@ -101,7 +107,7 @@ const ProductList = ({route, navigation}) => {
                 cancelButtonTitle='Cancel'
             />
             <View>
-                <TouchableOpacity style={styles.cerrarSesion} onPress={()=> {setuserAuth(null)}}><Text>Hola, {userAuth.name} ! (Cerrar Sesion)</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.cerrarSesion} onPress={()=> {logout()}}><Text>Hola, {userAuth.name} ! (Cerrar Sesion)</Text></TouchableOpacity>
                     <FlatList
                    // data={filteredDataSource}
                     data={fakeData}
