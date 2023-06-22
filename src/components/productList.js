@@ -73,7 +73,7 @@ const ProductList = ({route, navigation}) => {
                 <HeaderRNE 
                     style={styles.headerContainer}
                     rightComponent={
-                        <View style={styles.headerRight}>
+                        
                             <TouchableOpacity
                                 style={{ marginLeft: 10 }}
                                 onPress={() => {navigation.navigate('Cart', {list: cartProductList})}}
@@ -88,7 +88,7 @@ const ProductList = ({route, navigation}) => {
                                     />
                                 </View>
                             </TouchableOpacity>
-                        </View>
+                        
                     }
                     centerComponent={{ text: 'Universal Store', style: styles.heading }}
                 />
@@ -104,20 +104,22 @@ const ProductList = ({route, navigation}) => {
                 <TouchableOpacity style={styles.cerrarSesion} onPress={()=> {setuserAuth(null)}}><Text>Hola, {userAuth.name} ! (Cerrar Sesion)</Text></TouchableOpacity>
                     <FlatList
                    // data={filteredDataSource}
-                    data={fakeData}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({item}) => (
-                        <Card style={styles.card} elevation={7}>
-                            <View style={styles.product}>
-                                <Image
+                        data={fakeData}
+                        keyExtractor={(item) => item.id}
+                        renderItem={({item}) => (
+                            <Card style={styles.card} elevation={7}>
+                                <View style={styles.product}>
+                                    <Image
                                         style={styles.logo}
                                         source={{
-                                        uri: item.image,
+                                            uri: item.image,
                                         }}
-                                        />
-                                    <View>                    
-                                        <Text onPress={() => {navigation.navigate('Detail')}}
-                                        style={styles.title}>{item.title.slice(0,20)}</Text>
+                                    />
+                                    <View>
+                                        <Text 
+                                            onPress={() => {navigation.navigate('Detail', { id: item.id })}}
+                                            style={styles.title}>{item.title.slice(0,20)}
+                                        </Text>
                                         <Text style={styles.category}>{item.category}</Text>
                                         <Text style={styles.price}>${item.price}</Text>
                                         <Button
@@ -128,15 +130,14 @@ const ProductList = ({route, navigation}) => {
                                             onPress={()=> { 
                                                     addToCart(item)
                                             }}
-                                            />
+                                        />
                                     </View>
-                            </View>
-                        </Card>
-                    )}
+                                </View>
+                            </Card>
+                        )}
                     />
             </View>
         </View>
-        
     )
 }
 
