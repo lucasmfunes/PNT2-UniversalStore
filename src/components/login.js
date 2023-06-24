@@ -47,7 +47,7 @@ const Login = () => {
       if(username == null || password == null){
         console.log("usuario invalido")
       } else{
-        setuserAuth(username)
+        setuserAuth({name: username})
       }
   }
 

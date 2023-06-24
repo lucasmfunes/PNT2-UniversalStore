@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         paddingTop: 5,
         flexDirection: 'row',
         gap: 20
-    },
+    }
   });
 
 export default Cart;

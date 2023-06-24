@@ -3,7 +3,7 @@ import {Image, FlatList, Text, View, StyleSheet, SafeAreaView } from 'react-nati
 import { Card, Icon, Button, SearchBar } from 'react-native-elements';
 import products from '../../services/products'
 import { Header as HeaderRNE } from '@rneui/themed';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native';
 import { Badge } from '@rneui/themed';
 import {StatusBar} from 'react-native';
 import fakeData from '../data/fakeData';
@@ -12,6 +12,8 @@ import Storage from '../../services/asyncStorage'
 
 const ProductList = ({navigation}) => {
     const [search, setSearch] = useState('');
+
+    const [showBadge, setShowBadge] = useState(false);
 
     const{cartProductList, setCartProductList} = useContext(GlobalContext)
     const{userAuth, setuserAuth} = useContext(GlobalContext)
@@ -72,6 +74,10 @@ const ProductList = ({navigation}) => {
         Storage.clearAll()
       }
 
+      const goToCart = () => {
+
+      }
+
 
     return (
         <View>
@@ -79,22 +85,24 @@ const ProductList = ({navigation}) => {
                 <HeaderRNE 
                     style={styles.headerContainer}
                     rightComponent={
-                        
                             <TouchableOpacity
-                                style={{ marginLeft: 10 }}
+                                style={{ marginLeft: 15, marginRight: 5}}
                                 onPress={() => {navigation.navigate('Cart', {list: cartProductList})}}
                             >
                                 <View style={styles.headerRight} key={cartProductList.length} >
                                     <Icon type="antdesign" name="shoppingcart" color="white" />
-                                    <Badge
+                                    {
+                                        (cartProductList.length > 0) ?
+                                        <Badge
                                         status="error"
                                         value={getLength()}
                                         containerStyle={{ position: 'absolute', bottom: 15, left: 15}}
-                                        //onPress={() => {navigation.navigate('Cart', {list: cartProductList})}}
-                                    />
+                                    /> :
+                                    <></>
+                                    }
+
                                 </View>
                             </TouchableOpacity>
-                        
                     }
                     centerComponent={{ text: 'Universal Store', style: styles.heading }}
                 />
@@ -109,8 +117,8 @@ const ProductList = ({navigation}) => {
             <View>
                 <TouchableOpacity style={styles.cerrarSesion} onPress={()=> {logout()}}><Text>Hola, {userAuth.name} ! (Cerrar Sesion)</Text></TouchableOpacity>
                     <FlatList
-                   // data={filteredDataSource}
-                        data={fakeData}
+                    data={filteredDataSource}
+                      //  data={fakeData}
                         keyExtractor={(item) => item.id}
                         renderItem={({item}) => (
                             <Card style={styles.card} elevation={7}>
