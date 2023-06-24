@@ -74,11 +74,6 @@ const ProductList = ({navigation}) => {
         Storage.clearAll()
       }
 
-      const goToCart = () => {
-
-      }
-
-
     return (
         <View>
             <SafeAreaView >

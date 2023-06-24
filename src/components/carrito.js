@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import {Button,Icon, FlatList, Text, View, StyleSheet } from 'react-native'
+import React from 'react';
+import {Button, FlatList, Text, View, StyleSheet } from 'react-native'
 import { Card} from 'react-native-elements';
 const Cart = ({route, navigation}) => {
 
@@ -16,29 +16,44 @@ const Cart = ({route, navigation}) => {
     
     return(
         <View>
-            <Card elevation={7}>
-                <FlatList
-                data={list}
-                keyExtractor={(item) => item.id + Math.random() * 1000}
-                renderItem={({item}) => (
-                        <View>
-                                <View style={styles.productList}>                    
-                                    <Text>{item.title.slice(0,10)}</Text>
-                                    <Text>${item.price}</Text>
-                                </View>
+        {
+            (list.length > 0) ?
+            <View>
+                <Card elevation={7}>
+                    <FlatList
+                    data={list}
+                    keyExtractor={(item) => item.id + Math.random() * 1000}
+                    renderItem={({item}) => (
+                            <View>
+                                    <View style={styles.productList}>                    
+                                        <Text>{item.title.slice(0,10)}</Text>
+                                        <Text>${item.price}</Text>
+                                    </View>
 
-                        </View>
-                )}
-                />
-                <View>                    
-                    <Text style={styles.total}>Total: ${getTotal()}</Text>
-                </View>
-        </Card>
-            <Button
-                title='Pay order'
-                onPress={() => {navigation.navigate('Payment')} }
-                />
-        </View>
+                            </View>
+                    )}
+                    />
+                    <View>                    
+                        <Text style={styles.total}>Total: ${getTotal()}</Text>
+                    </View>
+                </Card>
+                    <Button
+                        title='Pay order'
+                        onPress={() => {navigation.navigate('Payment')} }
+                        />
+            </View> :
+            <View>
+                <Card elevation={7}>
+                    <Card.Title>No hay productos en el carrito!</Card.Title>
+                </Card>
+                <Button
+                        title='Volver'
+                        onPress={() => {navigation.navigate('Main')} }
+                        />
+            </View>
+        }
+       
+       </View>
 
     );
 }
