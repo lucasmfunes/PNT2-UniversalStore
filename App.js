@@ -16,10 +16,15 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   const [userAuth, setuserAuth] = useState(defaultAuth);
   const [cartProductList, setCartProductList] = useState(cartList);
+  const [username, setUsername] = useState(null);
 
   useEffect(() => {
     Storage.getData("Auth")
       .then((res) => setuserAuth(JSON.parse(res)))
+      .catch((error) => console.log(error));
+
+    Storage.getData("username")
+      .then((res) => setUsername(JSON.parse(res)))
       .catch((error) => console.log(error));
 
     Storage.getData("Cart")
@@ -35,7 +40,14 @@ export default function App() {
 
   return (
     <GlobalContext.Provider
-      value={{ userAuth, setuserAuth, cartProductList, setCartProductList }}
+      value={{
+        userAuth,
+        setuserAuth,
+        cartProductList,
+        setCartProductList,
+        username,
+        setUsername,
+      }}
     >
       <NavigationContainer>
         <Stack.Navigator>

@@ -5,6 +5,7 @@ import * as Google from "expo-auth-session/providers/google";
 import { ANDROID_CLIENT_ID, IOS_CLIENT_ID, EXPO_CLIENT_ID } from "@env";
 import GlobalContext from "./globalContext";
 import Storage from "../../services/asyncStorage";
+import fakeApiLogin from "../../services/login";
 
 const Login = () => {
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -60,18 +61,21 @@ const Login = () => {
   const [password, setPassword] = useState();
 
   const loginWithUser = () => {
-    if (username == null || password == null) {
-      console.log("usuario invalido");
-    } else {
-      setuserAuth({ name: username });
-    }
+    fakeApiLogin(username, password)
+      .then((json) => {
+        setAccessToken(json.token);
+        setuserAuth({ name: username });
+        Storage.storeData("Auth", JSON.stringify(json.token));
+        Storage.storeData("username", JSON.stringify(username));
+      })
+      .catch((error) => console.error("Error: ", error));
   };
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (response?.type === "success") {
       setAccessToken(response.authentication.accessToken);
     }
-  }, [response]);
+  }, [response]);*/
 
   /*useEffect(() => {
     if (response?.type === "success") {
