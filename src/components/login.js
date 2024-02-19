@@ -9,31 +9,10 @@ import fakeApiLogin from "../../services/login";
 
 const Login = () => {
   const [request, response, promptAsync] = Google.useAuthRequest({
-    androidClientId:
-      "353173646980-dbntp77t6k187qg43nv2b0tljldj6bd3.apps.googleusercontent.com",
-    iosClientId:
-      "353173646980-lv9vtkppgmfpgu19o9g8h56ihlfu0dba.apps.googleusercontent.com",
-    expoClientId:
-      "353173646980-7m3okg2d627p7g44tkn5703u6kc4r27c.apps.googleusercontent.com",
-    /*androidClientId:
-      "733272611796-b9l767bn0rd3gd0gq1l5kav0kt8a637j.apps.googleusercontent.com",
-    iosClientId:
-      "733272611796-1lnaoe7cskm42ihrjl9q2vqfma9gme20.apps.googleusercontent.com",
-    expoClientId:
-      "733272611796-sqgchop4lgq9dnk89ogcplk1qfr2rkkr.apps.googleusercontent.com",*/
+    androidClientId: ANDROID_CLIENT_ID,
+    iosClientId: IOS_CLIENT_ID,
+    expoClientId: EXPO_CLIENT_ID,
   });
-  /*const [request, response, promptAsync] = useAuthRequest({
-    responseType: "token",
-    clientId:
-      "353173646980-odi3eu9tbj1ktq9mebvnrclg3san39pv.apps.googleusercontent.com",
-    scopes: ["openid", "profile", "email"],
-  });*/
-
-  // const [request, response, promptAsync] = Google.useAuthRequest({
-  //   androidClientId: '733272611796-b9l767bn0rd3gd0gq1l5kav0kt8a637j.apps.googleusercontent.com',
-  //   iosClientId: '733272611796-1lnaoe7cskm42ihrjl9q2vqfma9gme20.apps.googleusercontent.com',
-  //   expoClientId: '733272611796-sqgchop4lgq9dnk89ogcplk1qfr2rkkr.apps.googleusercontent.com'
-  // });
 
   // Log with google
   const [accessToken, setAccessToken] = useState();
